@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body, html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-img {
+  /* The image used */
+background-image: url("bg1.jpg");
+
+
+  min-height: 1000px;
+
+
+  /* Center and scale the image nicely */
+  background-position:absolute;
+  background-repeat: no-repeat;
+  background-size: cover;
+ }
+
+/* Add styles to the form container */
+.container {
+  position: absolute;
+  right: 0;
+  margin: 10px;
+  margin-left: 500px;
+  max-width: 500px;
+padding-top: 0px;
+padding-left:0px;
+  background-color:none;
+}
+
+.text-block1{
+position: absolute;
+bottom: 400px;
+left: 20px
+ background-color:none;
+color:white;
+ padding-left: 10px;
+ padding-right: 10px;
+margin-top:300px;
+padding-top:10px;
+}
+.text-block2 
+{
+position: absolute;
+bottom: 400px;
+right: 2px
+ background-color:none;
+color:white;
+ padding-left: 1670px;
+ padding-right: 0px;
+margin-bottom: 300 px;
+}
+
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: solid;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 2;
+}
+.imgcontainer {
+  text-align: left;
+  margin: 0px 0 0px 0;
+  position: relative;
+}
+img.avatar {
+  width: 20%;
+  border-radius: 50%;
+}
+@media screen and (max-width: 900px) {
+  .column  {
+    width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column  {
+    width: 100%;
+  }
+}
+
+
+</style>
+</head>
+<div class="non-editable" contenteditable="false">
+
+<body>
+
+<div class="bg-img">
+  
+ 
+<h1> <font size=" 30" style= "color:#efc119"> <center><i> WIPER MOTOR TEST RIG</i></center></font></h1>
+ <div class="imgcontainer">
+     <img src="pricol_logo.png" alt="Avatar"class="avatar">
+</div>
+
+<div class="container">
+
+ <h1>Login</h1>
+
+
+    <label for="USER NAME" ><b>USERNAME</b></label>
+    <input type="text" id ="usrname"placeholder="Enter username" name="user" required>
+
+    <label for="psw"><b>PASSWORD</b></label>
+    <input type="password" id ="pass"placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" onclick= "validate()" class="btn">Login</button>
+  </div>
+
+<div  class= "text-block1" style="
+    width: 372px;
+    margin-top: 295px;
+    top: 474px;
+">
+
+<img src="logo_no.png" height= "70" width="350">
+<h4 style="margin-top: 4.28px;" >Copyright  © 2020<br> Dynaspede Integrated Systems (P) Limited<br>
+All rights reserved.<br>
+136-A  Sipcot Industrial Complex,<br>
+Hosur - 635 126 (T.N)<br>
+Ph : 91 - 4344 - 276915, 276813, 276243.<br>
+Fax : 91 - 4344 – 276841<br>
+Please visit us at  www.dynaspede.com <br>
+</h4>
+
+
+</div>
+<div  class= "text-block2">
+
+</div>
+</div>
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="static/js/jquery-2.0.3.min.js"></script>
+                <script src="static/js/login.js"></script>
+                  <script src="static/js/AES1.js"></script>
+               
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="static/js/bootstrap.min.js"></script>
+</body>
+</div>
+</html>

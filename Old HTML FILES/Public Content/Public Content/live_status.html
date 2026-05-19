@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+{
+  box-sizing: border-box;
+}
+
+
+/* Create four equal columns that floats next to each other */
+.column {
+font-size:15px;
+  float: left;
+  width: 20%;
+justify_content:space-between;
+  padding: auto;
+ height: 2000px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+
+
+.column label 
+{
+display:inline-block;
+text_algin: left;
+float: right;
+}
+}
+.grad
+{
+background: linear-gradient(to bottom,#FFFFEF 0%, #66CCFF 100%)
+
+}
+.grad2
+{
+background: linear-gradient(to bottom,#FFFFEF 0%, #66CCFF 100%)
+
+}
+/* Full-width input fields */
+input[type="text"]
+ {
+text-align: center;
+  width: 40%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: solid;
+  background: #f1f1f1;
+font-size:15px;
+   
+}
+
+h1{
+font-size:30px;
+}
+@media screen and (max-width: 900px) {
+  .column  {
+    width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column  {
+    width: 100%;
+  }
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+#logo { 
+  float: left;
+  display: inline-block;
+}
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 80px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 8% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width:50%; /* Could be more or less, depending on screen size */
+height:20%;
+}
+
+</style>
+</head>
+<body>
+<div class ="grad">
+<div id="hkjfc" style="clear:both;position:relative;zoom:1">
+    <img src="pricol-1.png"  id="logo"style="width:190px">
+<br><div class="navbar">
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">save</button>
+<br>
+<h1 align = "center" style="width: 1708px;">LIVE STATUS UPDATE</h1>
+</div>
+
+<div class="row">
+  <div class="column" style="background-color: none ;">
+   <center>
+ <h2>STATION 1</h2>
+ <h3>MODEL NO<h3>
+  <h3 id ="model1" vaule ="MODEL NO:">MODEL NO<br></h2><br>
+   <h3>SERIAL NO <h3>
+   <h3 id ="SNO1"  vaule ="--">SERIAL NO<br></h2>
+    <p>
+<label for ="status1"> STATION STATUS</label> 
+<br>
+<input type="text" id="status1"  value="">
+<br>
+<label for ="speed1"> SPEED:</label>
+<br> &emsp;&nbsp;
+<input type="text" id="speed1"  value="" >&nbsp; rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp;
+<input type="text" id="torque1" value="">&nbsp; Nm
+<br>
+VOLTAGE:<br>&emsp;&nbsp;
+<input type="text" id="voltage1" value="">&nbsp; volts
+<br>
+
+CURRENT:<br>&nbsp;
+<input type="text" id="current1" value="">&nbsp; A
+<br>
+
+REMAINING CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle1" value="">&emsp;&nbsp;
+<br>
+
+NO OF SETS:<br>&nbsp;
+<input type="text" id="part_count1" value="">&emsp;&nbsp;
+<br>
+<br><br><h3>
+CYCLE TIME(H:M:S)<br>&nbsp;
+<p  id="cycletime1" value=""></P>&emsp;&nbsp;
+<br>
+<br><br>
+
+RUNNING STATUS:
+<br>&nbsp;
+<p  id="runsts1" value=""></P>&emsp;&nbsp;
+
+<br><br><br>
+</h3>
+<button type="button" style="width:auto;" id= "start1"  value="START" onclick="start1byrem()">start</button>
+</p>
+</center>
+  </div>
+
+
+  <div class="column" style="background-color:#none;">
+<center>
+   <h2>STATION 2</h2>
+   
+    <h3>MODEL NO <h3>
+  <h3 id = "model2" vaule ="--">MODEL NO<br></h2><br>
+     <h3>SERIAL NO<h3>
+   <h3 id = "SNO2"  vaule ="--">SERIAL NO<br></h2>
+   <p>
+<label for ="status2"> STATION STATUS</label> 
+<br>
+<input type="text" id="status2" value="">
+<br>
+<label for ="speed2"> SPEED:</label>
+<br> &emsp;&nbsp; 
+<input type="text" id="speed2"  value="" >&nbsp;rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp;
+<input type="text" id="torque2" value="">&nbsp;Nm
+<br>
+
+VOLTAGE:<br>&emsp;&nbsp;
+<input type="text" id="voltage2" value="">&nbsp;volts
+<br>
+
+CURRENT:<br>&nbsp;
+<input type="text" id="current2" value="">&nbsp;A
+<br>
+
+REMAINING CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle2" value="">&emsp;&nbsp;
+<br>
+NO OF SETS:<br>&nbsp;
+<input type="text" id="part_count2" value="">&emsp;&nbsp;
+<br><br><br><h3>
+CYCLE TIME(H:M:S)<br>&nbsp;
+<p  id="cycletime2" value=""></P>&emsp;&nbsp;
+<br>
+<br><br>
+RUNNING STATUS:
+<br>&nbsp;
+<p id="runsts2"  value=""></P>&emsp;&nbsp;
+<br><br><br>
+</h3>
+<button style="width:auto;" id= "start2" onclick="start2byrem()">START</button>
+</p>
+  </center>
+</div>
+  <div class="column" style="background-color:none">
+<center>
+    <h2>STATION 3 </h2>
+	 <h3>MODEL NO <h3>
+  <h3 id ="model3" vaule ="--">MODEL NO<br></h2><br>
+     <h3>SERIAL NO <h3>
+   <h3 id ="SNO3"  vaule ="--">SERIAL NO<br></h2>
+      <p>
+<label for ="status3"> STATION STATUS</label> 
+<br>
+<input type="text" id="status3" value="">
+<br>
+SPEED:
+<br>  &emsp;&nbsp;
+<input type="text" id="speed3" value="" >&nbsp;rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp;
+<input type="text" id="torque3" value="">&nbsp;Nm
+<br>
+
+VOLTAGE:<br>&emsp;&nbsp;
+<input type="text" id="voltage3" value="">&nbsp;volts
+<br>
+
+CURRENT:<br>&nbsp;
+<input type="text" id="current3" value="">&nbsp;A
+<br>
+REMAINING CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle3" value="">&emsp;&nbsp;
+<br>
+NO OF SETS:<br>&nbsp;
+<input type="text" id="part_count3" value="">&emsp;&nbsp;
+<br><br><br><h3>
+CYCLE TIME(H:M:S)<br>&nbsp;
+<p  id="cycletime3" value=""></P>&emsp;&nbsp;
+<br>
+<br><br>
+
+RUNNING STATUS:
+<br><br>
+<p id="runsts3"  value=""></p>&emsp;&nbsp;
+<br>
+<br><br>
+</h3>
+<button type="button" style="width:auto;" id= "start3" value="START" onclick="start3byrem()">START</button>
+
+</p>
+</center>
+
+  </div>
+  <div class="column" style="background-color:none">
+<center>
+    <h2>STATION 4 </h2>
+	 <h3>MODEL NO <h3>
+  <h3 id ="model4" vaule ="--">MODEL NO<br>=</h2><br>
+     <h3>SERIAL NO <h3>
+   <h3 id ="SNO4"  vaule ="--">SERIAL NO<br>=</h2>
+     <p>
+<label for ="status4"> STATION STATUS</label> 
+<br>
+<input type="text" id="status4" value="">
+<br>
+<label for ="speed4"> SPEED:</label>
+<br>  &emsp;&nbsp;
+<input type="text" id="speed4"  value="" >&nbsp;rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp;
+<input type="text" id="torque4" value="">&nbsp;Nm
+<br>
+
+VOLTAGE:<br>&emsp;&nbsp;
+<input type="text" id="voltage4" value="">&nbsp;volts
+<br>
+CURRENT:<br>&nbsp;
+<input type="text" id="current4" value="">&nbsp;A
+<br>
+
+REMAINING CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle4" value="">&emsp;&nbsp;
+<br>
+NO OF SETS:<br>&nbsp;
+<input type="text" id="part_count4" value="">&emsp;&nbsp;
+<br><br><br>    <h3>
+CYCLE TIME(H:M:S)<br>&nbsp;
+<p  id="cycletime4" value=""></P>&emsp;&nbsp;
+<br>
+<br><br>
+RUNNING STATUS:
+<br>&nbsp;
+<p id="runsts4" value=""></p>&emsp;&nbsp;
+<br><br><br>
+</h3>
+<button type="button" style="width:auto;" id= "start4" value="start" onclick="start4byrem()">START</button>
+ 
+</p>
+</center>
+  </div>
+ <div class="column" style="background-color:none">
+    <center>
+<h2>STATION 5 </h2>
+ <h3>MODEL NO <h3>
+  <h3 id ="model5" vaule ="--">MODEL NO<br>=</h2><br>
+     <h3>SERIAL NO <h3>
+   <h3 id ="SNO5"  vaule ="--">SERIAL NO<br>=</h2>
+     <p>
+<label for ="status5"> STATION STATUS</label> 
+<br>
+<input type="text" id="status5"  value="">
+<br>
+<label for ="speed5"> SPEED:</label>
+<br>  &emsp;&nbsp
+<input type="text" id="speed5"  value="" >&nbsp;rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp
+<input type="text" id="torque5" value="">&nbsp;Nm
+<br>
+
+VOLTAGE:<br>&emsp;&nbsp
+<input type="text" id="voltage5" value="">&nbsp;Volts
+<br>
+CURRENT:<br>&nbsp;
+<input type="text" id="current5" value="">&nbsp;A
+<br>
+
+REMAINING CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle5" value="">&emsp;&nbsp;
+<br>
+NO OF SETS:<br>&nbsp;
+<input type="text" id="part_count5" value="">&emsp;&nbsp;
+<br><br><br><h3>
+CYCLE TIME(H:M:S)<br>&nbsp;
+<p  id="cycletime5" value=""></P>&emsp;&nbsp;
+<br>
+<br><br>
+RUNNING STATUS:
+<br>&nbsp;
+<p id="runsts5" value="" ></p>&emsp;&nbsp;
+<br><br><br>
+</h3>
+<button type="button" style="width:auto;" id= "start5" value="START" onclick="start5byrem()">START</button>
+</p>
+</center>
+  </div>
+</div>
+
+<div id="id01" class="modal">
+  
+  <div class="modal-content animate">
+    <div class="imgcontainer">
+     
+    </div>
+
+<div class="container" style="background-color:none">
+  <br>  <br>  <br>
+  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+             <button type="FRESH" onclick= "fresh()">FRESH</button>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+		
+	   <button type="CONTINUE" onclick= "conti()">CONTINUE</button>
+    </div>
+</div></div>
+<div id="id02" class="modal">
+  
+  <div class="modal-content animate">
+    <div class="imgcontainer">
+     
+    </div>
+
+<div class="container" style="background-color:none">
+  <br>  <br>  <br>
+  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+             <button type="FRESH" onclick= "fresh()">FRESH</button>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+		
+	   <button type="CONTINUE" onclick= "conti()">CONTINUE</button>
+    </div>
+</div></div>
+<div id="id03" class="modal">
+  
+  <div class="modal-content animate">
+    <div class="imgcontainer">
+     
+    </div>
+
+<div class="container" style="background-color:none">
+  <br>  <br>  <br>
+  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+             <button type="FRESH" onclick= "fresh()">FRESH</button>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+		
+	   <button type="CONTINUE" onclick= "conti()">CONTINUE</button>
+    </div>
+</div></div>
+<div id="id04" class="modal">
+  
+  <div class="modal-content animate">
+    <div class="imgcontainer">
+     
+    </div>
+
+<div class="container" style="background-color:none">
+  <br>  <br>  <br>
+  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+             <button type="FRESH" onclick= "fresh()">FRESH</button>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+		
+	   <button type="CONTINUE" onclick= "conti()">CONTINUE</button>
+    </div>
+</div></div>
+<div id="id05" class="modal">
+  
+  <div class="modal-content animate">
+    <div class="imgcontainer">
+     
+    </div>
+	<div class="container" style="background-color:none">
+  <br>  <br>  <br>
+  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+             <button type="FRESH" onclick= "fresh()">FRESH</button>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+		
+	   <button type="CONTINUE" onclick= "conti()">CONTINUE</button>
+    </div>
+</div></div>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="static/js/jquery-2.0.3.min.js"></script>
+                <script src="static/js/home.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="static/js/bootstrap.min.js"></script>
+		<script src="static/js/AES1.js"></script>
+
+</body>
+</html>
+
+
+
+

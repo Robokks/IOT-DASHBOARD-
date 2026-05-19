@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 5px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 12px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 20%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 20px 20px;
+  text-decoration: none;
+}
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+ input[type=number] {
+  width: 8%;
+  padding: 7px;
+  margin: 5px 0 5px 0;
+  border: solid;
+  background: #f1f1f1;
+font-size:16px;
+text-align: center;
+}
+.p
+{
+height :800px;
+background: linear-gradient(to top,#11cc99 0%, #ffcc88 100%)
+}
+
+.btn {
+
+  border: none;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn1 {
+  border: none;
+  background-color: red;
+  padding: 13px 27px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 80px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 8% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width:100%; /* Could be more or less, depending on screen size */
+height:100%;
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 500px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+@media screen and (max-width: 900px) {
+  .column  {
+    width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column  {
+    width: 100%;
+  }
+}
+/* Style the tab */
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 30%;
+  height: 300px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  height: 400px;
+  display: none;
+}
+
+/* Clear floats after the tab */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body> 
+<div class="navbar">
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">save</button>
+<button style="width:auto;">Import</button>
+<button class ="btn1" id="EXIT" style="width:auto;">Logout</button>
+</div>
+<h2 align = "center">TEST CONFIGURATION</h2>
+<div class="modal-content animate">
+<h2></h2>
+<p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;PRICOL WIPER MOTOR TEST RIG</p>
+
+<div class="tab">
+  <button class="tablinks" onmouseover="openCity(event, 'station1')">TESTING POSITION 1</button>
+  <button class="tablinks" onmouseover="openCity(event, 'station2')">TESTING POSITION 2</button>
+  <button class="tablinks" onmouseover="openCity(event, 'station3')">TESTING POSITION 3</button>
+    <button class="tablinks" onmouseover="openCity(event, 'station4')">TESTING POSITION 4</button>
+	<button class="tablinks" onmouseover="openCity(event, 'station5')">TESTING POSITION 5</button>
+</div>
+
+<div id="station1" class="tabcontent"
+    <p>
+<br>
+<label for ="act1"> ACTIVE INACTIVE</label> 
+<input type="checkbox" id="act1"  value="Yes">
+<h4>LOW SPEED </h4>
+ VOLTAGE(V)
+&emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+&emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ NO OF CYCLE:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="low_speedvolt1"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedload1"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_on_time1" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_off_time1" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedcy1"  value="">&emsp;&emsp;&emsp;
+<h4>HIGH SPEED</h4>
+ VOLTAGE(V)
+ &emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+ &emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NO OF CYCLE
+&emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="high_speedvolt1"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedload1" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_on_time1" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_off_time1" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedcy1"  value="">&emsp;&emsp;&emsp;
+<br><br>
+INTERVAL(sec):
+ &emsp;&emsp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ <br>
+<input type="number" id="pause_int1" value="">&emsp;&emsp;&emsp;
+<input type="number" id="set_count1" value="">&emsp;&emsp;&emsp;
+
+<!--
+&emsp;&nbsp;&emsp;&emsp;
+
+ HIGH SPEED NO OF CYCLE:
+ &emsp;&emsp;&emsp;&emsp;&emsp;
+HIGH SPEED 
+ ON TIME(sec):
+ &emsp; &emsp; &nbsp;&emsp;
+HIGH SPEED 
+ OFF TIME(sec):
+ &emsp; &emsp;&emsp;&ensp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ 
+<input type="number" id=""low_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="low_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+-->
+
+</p>
+</div>
+<div id="station2" class="tabcontent"
+    <p>
+<br>
+<label for ="act2"> ACTIVE INACTIVE</label> 
+<input type="checkbox" id="act2"  value="Yes">
+<h4>LOW SPEED </h4>
+ VOLTAGE(V)
+&emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+&emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ NO OF CYCLE:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="low_speedvolt2"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedload2"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_on_time2" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_off_time2" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedcy2"  value="">&emsp;&emsp;&emsp;
+<h4>HIGH SPEED</h4>
+ VOLTAGE(V)
+ &emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+ &emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NO OF CYCLE
+&emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="high_speedvolt2"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedload2" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_on_time2" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_off_time2" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedcy2"  value="">&emsp;&emsp;&emsp;
+<br><br>
+INTERVAL(sec):
+ &emsp;&emsp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="pause_int2" value="">&emsp;&emsp;&emsp;
+<input type="number" id="set_count2" value="">&emsp;&emsp;&emsp;
+</p>
+<!--
+&emsp;&nbsp;&emsp;&emsp;
+
+ HIGH SPEED NO OF CYCLE:
+ &emsp;&emsp;&emsp;&emsp;&emsp;
+HIGH SPEED 
+ ON TIME(sec):
+ &emsp; &emsp; &nbsp;&emsp;
+HIGH SPEED 
+ OFF TIME(sec):
+ &emsp; &emsp;&emsp;&ensp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ 
+<input type="number" id=""low_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="low_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+-->
+
+</p>
+</div>
+<div id="station3" class="tabcontent">
+    <p>
+<label for ="act3"> ACTIVE INACTIVE</label> 
+<input type="checkbox" id="act3"  value="Yes">
+<h4>LOW SPEED </h4>
+ VOLTAGE(V)
+&emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+&emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ NO OF CYCLE:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="low_speedvolt3"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedload3"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_on_time3" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_off_time3" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedcy3"  value="">&emsp;&emsp;&emsp;
+<h4>HIGH SPEED</h4>
+ VOLTAGE(V)
+ &emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+ &emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NO OF CYCLE
+&emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="high_speedvolt3"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedload3" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_on_time3" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_off_time3" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedcy3"  value="">&emsp;&emsp;&emsp;
+<br><br>
+INTERVAL(sec):
+ &emsp;&emsp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ <br>
+<input type="number" id="pause_int3" value="">&emsp;&emsp;&emsp;
+<input type="number" id="set_count3" value="">&emsp;&emsp;&emsp;
+
+<!--
+&emsp;&nbsp;&emsp;&emsp;
+
+ HIGH SPEED NO OF CYCLE:
+ &emsp;&emsp;&emsp;&emsp;&emsp;
+HIGH SPEED 
+ ON TIME(sec):
+ &emsp; &emsp; &nbsp;&emsp;
+HIGH SPEED 
+ OFF TIME(sec):
+ &emsp; &emsp;&emsp;&ensp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ 
+<input type="number" id=""low_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="low_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+-->
+
+</p>
+ 
+</div>
+<div id="station4" class="tabcontent">
+    <p>
+<label for ="act4"> ACTIVE INACTIVE</label> 
+<input type="checkbox" id="act4"  value="Yes">
+<h4>LOW SPEED </h4>
+ VOLTAGE(V)
+&emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+&emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ NO OF CYCLE:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="low_speedvolt4"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedload4"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_on_time4" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_off_time4" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedcy4"  value="">&emsp;&emsp;&emsp;
+<h4>HIGH SPEED</h4>
+ VOLTAGE(V)
+ &emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+ &emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NO OF CYCLE
+&emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="high_speedvolt4"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedload4" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_on_time4" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_off_time4" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedcy4"  value="">&emsp;&emsp;&emsp;
+<br><br>
+
+INTERVAL(sec):
+ &emsp;&emsp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ <br>
+<input type="number" id="pause_int4" value="">&emsp;&emsp;&emsp;
+<input type="number" id="set_count4" value="">&emsp;&emsp;&emsp;
+
+<!--
+&emsp;&nbsp;&emsp;&emsp;
+
+ HIGH SPEED NO OF CYCLE:
+ &emsp;&emsp;&emsp;&emsp;&emsp;
+HIGH SPEED 
+ ON TIME(sec):
+ &emsp; &emsp; &nbsp;&emsp;
+HIGH SPEED 
+ OFF TIME(sec):
+ &emsp; &emsp;&emsp;&ensp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ 
+<input type="number" id=""low_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="low_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+-->
+
+</p>
+ </div>
+ <div id="station5" class="tabcontent">
+    <p>
+<label for ="act5"> ACTIVE INACTIVE</label> 
+<input type="checkbox" id="act5"  value="Yes">
+<h4>LOW SPEED </h4>
+ VOLTAGE(V)
+&emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+&emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ NO OF CYCLE:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="low_speedvolt5"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedload5"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_on_time5" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_off_time5" value="">&emsp;&emsp;&emsp;
+<input type="number" id="low_speedcy5"  value="">&emsp;&emsp;&emsp;
+<h4>HIGH SPEED</h4>
+ VOLTAGE(V)
+ &emsp;&nbsp;&emsp;&emsp;
+ LOAD(Nm):
+&emsp;&nbsp;&emsp;&emsp;&nbsp;&nbsp;
+ ON TIME(sec):
+ &emsp;&nbsp;&emsp;&nbsp;
+ OFF TIME(sec):
+&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NO OF CYCLE
+&emsp;&nbsp;&emsp;&emsp;&emsp;
+<br>
+<input type="number" id="high_speedvolt5"  value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedload5" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_on_time5" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_off_time5" value="">&emsp;&emsp;&emsp;
+<input type="number" id="high_speedcy5"  value="">&emsp;&emsp;&emsp;
+<br><br>
+
+INTERVAL(sec):
+ &emsp;&emsp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ <br>
+<input type="number" id="pause_int5" value="">&emsp;&emsp;&emsp;
+<input type="number" id="set_count5" value="">&emsp;&emsp;&emsp;
+
+<!--
+&emsp;&nbsp;&emsp;&emsp;
+
+ HIGH SPEED NO OF CYCLE:
+ &emsp;&emsp;&emsp;&emsp;&emsp;
+HIGH SPEED 
+ ON TIME(sec):
+ &emsp; &emsp; &nbsp;&emsp;
+HIGH SPEED 
+ OFF TIME(sec):
+ &emsp; &emsp;&emsp;&ensp;
+ SET COUNTS:
+ &emsp;&nbsp;&emsp;&emsp;&emsp;
+ 
+<input type="number" id=""low_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="low_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_speedvoltramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<input type="number" id="high_loadramp2" value="">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+-->
+
+</p>
+ 
+</div>
+
+<div id="id01" class="modal">
+  
+  <div class="modal-content animate">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+     <!-- <img src="img_avatar2.png" alt="Avatar" class="avatar">-->
+    </div>
+
+<div class="container" style="background-color:none">
+    Username:
+      <input type="text" id ="usrname" placeholder="Enter Username" >
+
+     Password:
+      <input type="password" id ="pass" placeholder="Enter Password">
+        
+      <button type="submit" onclick= "validate()">Login</button>
+    </div>
+ <div class="container" style="background-color:none">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+    </div>
+</div>
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="static/js/jquery-2.0.3.min.js"></script>
+                <script src="static/js/master.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="static/js/bootstrap.min.js"></script>
+		<script src="static/js/AES1.js"></script>
+
+</body>
+</html>
+
+
+
+
+

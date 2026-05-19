@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<!--Import javasript library-->
+<script src="static/js/jquery-2.0.3.min.js"script>
+<!--Add index.js-->
+<script src="js/home.js"></script>
+<!--Add the label to the browser tab-->
+<head>
+<title>Add Two With Submit</title>
+</head>
+<!--the body tag is used to mark the content of the page.-->
+<body>
+<!--we're going to use a table to organize the elements on our page-->
+<table>
+<!--tr specifies a new row-->
+<tr>
+<td>First Number</td>
+<td><input type=text id='firstNumber' value='0'></td>
+</tr>
+<tr>
+<td>Second Number</td>
+<td><input type=text id='secondNumber' value='0'></td>
+</tr>
+<tr>
+<td>Result</td>
+<!--the currentValue id is used to display the current value of the data
+returned from our
+URL request-->
+<td><div id="result">0</div></td>
+</tr>
+</table>
+<button type=button id='submitButton'>Submit</button>
+</body>
+</html>

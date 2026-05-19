@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PROFILE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap -->
+<link href="static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+	<body style="padding-top: 70px">
+		
+		<div class="container">
+			<h1 align = "center">PROFILE</h1>
+			
+		</div>
+		
+		
+<fieldset>
+  <legend>SERVO POSITIONS:</legend>
+
+  SET POSITION:<br>
+  <input type="text" id="setpos" value="">
+  <br>
+  Set velocity:<br>
+  <input  type="text" id="setvel" value="l">
+  <br><br>
+
+</fieldset>
+<fieldset>
+  <legend>LUB SYSTEM</legend>
+  SET PRESSURE:<br>
+  <input type="text" id="settorque" value="">
+  <br>
+  SET RPM:<br>
+  <input type="text" id="setrpm" value="">
+</fieldset>
+
+<fieldset>
+  <legend>USER VERIFICATION</legend>
+  USERNAME:<br>
+  <input type="text" id="usrname" value="">
+  <br>
+  PASSWORD:<br>
+  <input type="password" id="pass" value="">
+</fieldset>
+
+
+
+
+
+<br>
+  <input type="submit" onclick = "validate()" value="Submit">
+<input type="submit" onclick = "importdata()" value="IMPORT">
+
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="static/js/jquery-3.2.1.min.js"></script>
+                  <script src="static/js/master.js"></script>
+
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="static/js/bootstrap.min.js"></script>
+	</body>
+</html>

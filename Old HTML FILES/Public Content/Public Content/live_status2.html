@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+{
+  box-sizing: border-box;
+}
+
+
+/* Create four equal columns that floats next to each other */
+.column {
+font-size:15px;
+  float: left;
+  width: 20%;
+justify_content:space-between;
+  padding: auto;
+ height: 2000px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+
+
+.column label 
+{
+display:inline-block;
+text_algin: left;
+float: right;
+}
+}
+div
+{
+background: linear-gradient(to bottom,#FFFFEF 0%, #66CCFF 100%)
+}
+/* Full-width input fields */
+input[type="text"]
+ {
+text-align: center;
+  width: 40%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: solid;
+  background: #f1f1f1;
+font-size:15px;
+   
+}
+
+h1{
+font-size:30px;
+}
+@media screen and (max-width: 900px) {
+  .column  {
+    width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column  {
+    width: 100%;
+  }
+}
+
+</style>
+</head>
+<body>
+<div id="hkjfc" style="clear:both;position:relative;zoom:1">
+<br>
+<h1 align = "center" >LIVE STATUS UPDATE</h1>
+<div>
+<div class="row">
+  <div class="column" style="background-color: none ;">
+   <center>
+ <h2>STATION 1</h2>
+ <h3>MODEL NO:<h3>
+  <h3 id ="model1" vaule ="MODEL NO:">MODEL NO:<br></h2><br>
+   <h3>SERIAL NO:<h3>
+   <h3 id ="SNO1"  vaule ="--">SERIAL NO:<br></h2>
+    <p>
+<label for ="status1"> STATION STATUS</label> 
+<br>
+<input type="text" id="status1"  value="">
+<br>
+<label for ="speed1"> SPEED:</label>
+<br> &emsp;&nbsp;
+<input type="text" id="speed1"  value="" >&nbsp; rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp;
+<input type="text" id="torque1" value="">&nbsp; Nm
+<br>
+VOLTAGE:<br>&emsp;&nbsp;
+<input type="text" id="voltage1" value="">&nbsp; volts
+<br>
+
+CURRENT:<br>&nbsp;
+<input type="text" id="current1" value="">&nbsp; A
+<br>
+
+NO OF CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle1" value="">&emsp;&nbsp;
+<br>
+
+PART COUNT:<br>&nbsp;
+<input type="text" id="part_count1" value="">&emsp;&nbsp;
+<br>
+<br><br>
+RUNNING STATUS:
+<br>&nbsp;
+<input type="text"  id="runsts1" style="padding-top: 100px; padding-bottom: 100px;" value="">&emsp;&nbsp;
+
+<br><br><br>
+<button type="button" style="width:auto;" id= "start1"  value="START" onclick="start1byrem()">start</button>
+</p>
+</center>
+  </div>
+
+
+  <div class="column" style="background-color:#bbb;">
+<center>
+   <h2>STATION 2</h2>
+   
+    <h3>MODEL NO:<h3>
+  <h3 id = "model2" vaule ="--">MODEL NO:<br></h2><br>
+     <h3>SERIAL NO:<h3>
+   <h3 id = "SNO2"  vaule ="--">SERIAL NO:<br></h2>
+   <p>
+<label for ="status2"> STATION STATUS</label> 
+<br>
+<input type="text" id="status2" value="">
+<br>
+<label for ="speed2"> SPEED:</label>
+<br> &emsp;&nbsp; 
+<input type="text" id="speed2"  value="" >&nbsp;rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp;
+<input type="text" id="torque2" value="">&nbsp;Nm
+<br>
+
+VOLTAGE:<br>&emsp;&nbsp;
+<input type="text" id="voltage2" value="">&nbsp;volts
+<br>
+
+CURRENT:<br>&nbsp;
+<input type="text" id="current2" value="">&nbsp;A
+<br>
+
+NO OF CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle2" value="">&emsp;&nbsp;
+<br>
+PART COUNT:<br>&nbsp;
+<input type="text" id="part_count2" value="">&emsp;&nbsp;
+<br><br><br>
+RUNNING STATUS:
+<br>&nbsp;
+<input type="text" id="runsts2" style="padding-top: 100px; padding-bottom: 100px;" value="">&emsp;&nbsp;
+<br><br><br>
+
+<button style="width:auto;" id= "start2" onclick="start2byrem()">START</button>
+</p>
+  </center>
+</div>
+  <div class="column" style="background-color:#ccc;">
+<center>
+    <h2>STATION 3</h2>
+	 <h3>MODEL NO:<h3>
+  <h3 id ="model3" vaule ="--">MODEL NO:<br></h2><br>
+     <h3>SERIAL NO:<h3>
+   <h3 id ="SNO3"  vaule ="--">SERIAL NO:<br></h2>
+      <p>
+<label for ="status3"> STATION STATUS</label> 
+<br>
+<input type="text" id="status3" value="">
+<br>
+SPEED:
+<br>  &emsp;&nbsp;
+<input type="text" id="speed3" value="" >&nbsp;rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp;
+<input type="text" id="torque3" value="">&nbsp;Nm
+<br>
+
+VOLTAGE:<br>&emsp;&nbsp;
+<input type="text" id="voltage3" value="">&nbsp;volts
+<br>
+
+CURRENT:<br>&nbsp;
+<input type="text" id="current3" value="">&nbsp;A
+<br>
+NO OF CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle3" value="">&emsp;&nbsp;
+<br>
+PART COUNT:<br>&nbsp;
+<input type="text" id="part_count3" value="">&emsp;&nbsp;
+<br><br><br>
+<br>
+RUNNING STATUS:
+<br>
+<input type="text" id="runsts3" style="padding-top: 100px; padding-bottom: 100px;" value="">&emsp;&nbsp;
+<br>
+<br><br>
+
+<button type="button" style="width:auto;" id= "start3" value="START" onclick="start3byrem()">START</button>
+
+</p>
+</center>
+
+  </div>
+  <div class="column" style="background-color:#ddd;">
+<center>
+    <h2>STATION 4</h2>
+	 <h3>MODEL NO:<h3>
+  <h3 id ="model4" vaule ="--">MODEL NO:<br>=</h2><br>
+     <h3>SERIAL NO:<h3>
+   <h3 id ="SNO4"  vaule ="--">SERIAL NO:<br>=</h2>
+     <p>
+<label for ="status4"> STATION STATUS</label> 
+<br>
+<input type="text" id="status4" value="">
+<br>
+<label for ="speed4"> SPEED:</label>
+<br>  &emsp;&nbsp;
+<input type="text" id="speed4"  value="" >&nbsp;rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp;
+<input type="text" id="torque4" value="">&nbsp;Nm
+<br>
+
+VOLTAGE:<br>&emsp;&nbsp;
+<input type="text" id="voltage4" value="">&nbsp;volts
+<br>
+CURRENT:<br>&nbsp;
+<input type="text" id="current4" value="">&nbsp;A
+<br>
+
+NO OF CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle4" value="">&emsp;&nbsp;
+<br>
+PART COUNT:<br>&nbsp;
+<input type="text" id="part_count4" value="">&emsp;&nbsp;
+<br><br><br>
+RUNNING STATUS:
+<br>&nbsp;
+<input type="text" id="runsts4" style="padding-top: 100px; padding-bottom: 100px;" value="">&emsp;&nbsp;
+<br><br><br>
+
+<button type="button" style="width:auto;" id= "start4" value="start" onclick="start4byrem()">START</button>
+ 
+</p>
+</center>
+  </div>
+ <div class="column" style="background-color: #EEE;">
+    <center>
+<h2>STATION 5</h2>
+ <h3>MODEL NO:<h3>
+  <h3 id ="model5" vaule ="--">MODEL NO:<br>=</h2><br>
+     <h3>SERIAL NO:<h3>
+   <h3 id ="SNO5"  vaule ="--">SERIAL NO:<br>=</h2>
+     <p>
+<label for ="status5"> STATION STATUS</label> 
+<br>
+<input type="text" id="status5"  value="">
+<br>
+<label for ="speed5"> SPEED:</label>
+<br>  &emsp;&nbsp
+<input type="text" id="speed5"  value="" >&nbsp;rpm
+<br>
+TORQUE:
+<br>&emsp;&nbsp
+<input type="text" id="torque5" value="">&nbsp;Nm
+<br>
+
+VOLTAGE:<br>&emsp;&nbsp
+<input type="text" id="voltage5" value="">&nbsp;Volts
+<br>
+CURRENT:<br>&nbsp;
+<input type="text" id="current5" value="">&nbsp;A
+<br>
+
+NO OF CYCLES:<br>&nbsp;
+<input type="text" id="no_cycle5" value="">&emsp;&nbsp;
+<br>
+PART COUNT:<br>&nbsp;
+<input type="text" id="part_count5" value="">&emsp;&nbsp;
+<br><br><br>
+RUNNING STATUS:
+<br>&nbsp;
+<input type="text" id="runsts5" style="padding-top: 100px; padding-bottom: 100px;" value="">&emsp;&nbsp;
+<br><br><br>
+
+<button type="button" style="width:auto;" id= "start5" value="START" onclick="start5byrem()">START</button>
+</p>
+</center>
+  </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="static/js/jquery-2.0.3.min.js"></script>
+                <script src="static/js/home.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="static/js/bootstrap.min.js"></script>
+		<script src="static/js/AES1.js"></script>
+
+</body>
+</html>
+
+
+
+
