@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — IoT Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="/assets/logo.png" alt="Logo" onerror="this.style.display='none'">
+      <span>Wiper Motor Test Rig</span>
+    </div>
+    <div class="sidebar-user" id="sidebar-user"></div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="active">
+        <span class="icon">⊞</span> Overview
+      </a>
+      <a href="live.html">
+        <span class="icon">◉</span> Live Status
+      </a>
+      <a href="config.html" class="admin-only">
+        <span class="icon">⚙</span> Test Config
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/api/logout">Sign Out</a>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="main">
+    <div class="topbar">
+      <h1>Station Overview</h1>
+      <span class="user-count">
+        Users online: <strong id="no-users">—</strong>
+      </span>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div class="card-title">All Stations</div>
+        <table class="overview-table">
+          <thead>
+            <tr>
+              <th>Station</th>
+              <th>Status</th>
+              <th>Speed</th>
+              <th>Torque</th>
+              <th>Voltage</th>
+              <th>Current</th>
+              <th>Cycles Left</th>
+              <th>Run Status</th>
+            </tr>
+          </thead>
+          <tbody id="overview-tbody">
+            <!-- Rows populated by JS via WebSocket -->
+            <tr><td colspan="8" style="text-align:center;color:var(--color-text-muted);padding:24px;">Connecting to LabVIEW…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAuth, markActiveNav, applyStatusClass, renderUser } from '/js/ui.js';
+
+  const tbody = document.getElementById('overview-tbody');
+  const noUsersEl = document.getElementById('no-users');
+
+  let reconnectDelay = 1000;
+
+  async function init() {
+    const session = await requireAuth();
+    if (!session) return;
+    renderUser(session);
+    markActiveNav();
+    connect();
+  }
+
+  function connect() {
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    const ws = new WebSocket(`${proto}://${location.host}/ws`);
+
+    ws.onmessage = (e) => {
+      const msg = JSON.parse(e.data);
+      if (msg.type !== 'update') return;
+      reconnectDelay = 1000;
+      if (noUsersEl && msg.noUsers != null) noUsersEl.textContent = msg.noUsers;
+      renderRows(msg.stations);
+    };
+
+    ws.onclose = () => setTimeout(connect, reconnectDelay *= 2 > 30000 ? 30000 : reconnectDelay * 2);
+    ws.onerror = () => ws.close();
+  }
+
+  function renderRows(stations) {
+    tbody.innerHTML = '';
+    for (const s of stations) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>Station ${s.id}</strong><br><small style="color:var(--color-text-muted)">${s.model_no || ''}</small></td>
+        <td><span class="status-badge" id="sts${s.id}">${s.status || 'IDLE'}</span></td>
+        <td>${s.speed ?? '—'} rpm</td>
+        <td>${s.torque ?? '—'} Nm</td>
+        <td>${s.voltage ?? '—'} V</td>
+        <td>${s.current ?? '—'} A</td>
+        <td>${s.no_cycle ?? '—'}</td>
+        <td>${s.run_sts || '—'}</td>
+      `;
+      tbody.appendChild(tr);
+      applyStatusClass(document.getElementById(`sts${s.id}`), s.status);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

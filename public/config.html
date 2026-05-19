@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Config — IoT Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="/assets/logo.png" alt="Logo" onerror="this.style.display='none'">
+      <span>Wiper Motor Test Rig</span>
+    </div>
+    <div class="sidebar-user" id="sidebar-user"></div>
+    <nav class="sidebar-nav">
+      <a href="index.html"><span class="icon">⊞</span> Overview</a>
+      <a href="live.html"><span class="icon">◉</span> Live Status</a>
+      <a href="config.html" class="admin-only"><span class="icon">⚙</span> Test Config</a>
+    </nav>
+    <div class="sidebar-footer"><a href="/api/logout">Sign Out</a></div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Test Configuration</h1>
+      <button id="save-config" class="btn btn-primary admin-only">Save Configuration</button>
+      <span id="save-status" style="font-size:13px;margin-left:12px;"></span>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <!-- Station tabs -->
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="1">Station 1</button>
+          <button class="tab-btn" data-tab="2">Station 2</button>
+          <button class="tab-btn" data-tab="3">Station 3</button>
+          <button class="tab-btn" data-tab="4">Station 4</button>
+          <button class="tab-btn" data-tab="5">Station 5</button>
+        </div>
+
+        <!-- Repeated for each station -->
+        <div class="tab-panel active" id="tab-1">
+          <div class="config-grid">
+            <div class="config-field"><label>Status</label><select id="s1_status"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+            <div class="config-field"><label>High Set Voltage (V)</label><input type="number" id="s1_high_set_v" step="0.1"></div>
+            <div class="config-field"><label>Low Set Voltage (V)</label><input type="number" id="s1_low_set_v" step="0.1"></div>
+            <div class="config-field"><label>High Speed Cycle</label><input type="number" id="s1_high_speed_cycle"></div>
+            <div class="config-field"><label>Low Speed Cycle</label><input type="number" id="s1_low_speed_cycle"></div>
+            <div class="config-field"><label>High Speed Load</label><input type="number" id="s1_high_speed_load"></div>
+            <div class="config-field"><label>Low Speed Load</label><input type="number" id="s1_low_speed_load"></div>
+            <div class="config-field"><label>High On Time (s)</label><input type="number" id="s1_high_on_time" step="0.1"></div>
+            <div class="config-field"><label>Low On Time (s)</label><input type="number" id="s1_low_on_time" step="0.1"></div>
+            <div class="config-field"><label>High Off Time (s)</label><input type="number" id="s1_high_off_time" step="0.1"></div>
+            <div class="config-field"><label>Low Off Time (s)</label><input type="number" id="s1_low_off_time" step="0.1"></div>
+            <div class="config-field"><label>Pause Time (s)</label><input type="number" id="s1_pause_time" step="0.1"></div>
+            <div class="config-field"><label>Set Counts</label><input type="number" id="s1_set_counts"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-2">
+          <div class="config-grid">
+            <div class="config-field"><label>Status</label><select id="s2_status"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+            <div class="config-field"><label>High Set Voltage (V)</label><input type="number" id="s2_high_set_v" step="0.1"></div>
+            <div class="config-field"><label>Low Set Voltage (V)</label><input type="number" id="s2_low_set_v" step="0.1"></div>
+            <div class="config-field"><label>High Speed Cycle</label><input type="number" id="s2_high_speed_cycle"></div>
+            <div class="config-field"><label>Low Speed Cycle</label><input type="number" id="s2_low_speed_cycle"></div>
+            <div class="config-field"><label>High Speed Load</label><input type="number" id="s2_high_speed_load"></div>
+            <div class="config-field"><label>Low Speed Load</label><input type="number" id="s2_low_speed_load"></div>
+            <div class="config-field"><label>High On Time (s)</label><input type="number" id="s2_high_on_time" step="0.1"></div>
+            <div class="config-field"><label>Low On Time (s)</label><input type="number" id="s2_low_on_time" step="0.1"></div>
+            <div class="config-field"><label>High Off Time (s)</label><input type="number" id="s2_high_off_time" step="0.1"></div>
+            <div class="config-field"><label>Low Off Time (s)</label><input type="number" id="s2_low_off_time" step="0.1"></div>
+            <div class="config-field"><label>Pause Time (s)</label><input type="number" id="s2_pause_time" step="0.1"></div>
+            <div class="config-field"><label>Set Counts</label><input type="number" id="s2_set_counts"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-3">
+          <div class="config-grid">
+            <div class="config-field"><label>Status</label><select id="s3_status"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+            <div class="config-field"><label>High Set Voltage (V)</label><input type="number" id="s3_high_set_v" step="0.1"></div>
+            <div class="config-field"><label>Low Set Voltage (V)</label><input type="number" id="s3_low_set_v" step="0.1"></div>
+            <div class="config-field"><label>High Speed Cycle</label><input type="number" id="s3_high_speed_cycle"></div>
+            <div class="config-field"><label>Low Speed Cycle</label><input type="number" id="s3_low_speed_cycle"></div>
+            <div class="config-field"><label>High Speed Load</label><input type="number" id="s3_high_speed_load"></div>
+            <div class="config-field"><label>Low Speed Load</label><input type="number" id="s3_low_speed_load"></div>
+            <div class="config-field"><label>High On Time (s)</label><input type="number" id="s3_high_on_time" step="0.1"></div>
+            <div class="config-field"><label>Low On Time (s)</label><input type="number" id="s3_low_on_time" step="0.1"></div>
+            <div class="config-field"><label>High Off Time (s)</label><input type="number" id="s3_high_off_time" step="0.1"></div>
+            <div class="config-field"><label>Low Off Time (s)</label><input type="number" id="s3_low_off_time" step="0.1"></div>
+            <div class="config-field"><label>Pause Time (s)</label><input type="number" id="s3_pause_time" step="0.1"></div>
+            <div class="config-field"><label>Set Counts</label><input type="number" id="s3_set_counts"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-4">
+          <div class="config-grid">
+            <div class="config-field"><label>Status</label><select id="s4_status"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+            <div class="config-field"><label>High Set Voltage (V)</label><input type="number" id="s4_high_set_v" step="0.1"></div>
+            <div class="config-field"><label>Low Set Voltage (V)</label><input type="number" id="s4_low_set_v" step="0.1"></div>
+            <div class="config-field"><label>High Speed Cycle</label><input type="number" id="s4_high_speed_cycle"></div>
+            <div class="config-field"><label>Low Speed Cycle</label><input type="number" id="s4_low_speed_cycle"></div>
+            <div class="config-field"><label>High Speed Load</label><input type="number" id="s4_high_speed_load"></div>
+            <div class="config-field"><label>Low Speed Load</label><input type="number" id="s4_low_speed_load"></div>
+            <div class="config-field"><label>High On Time (s)</label><input type="number" id="s4_high_on_time" step="0.1"></div>
+            <div class="config-field"><label>Low On Time (s)</label><input type="number" id="s4_low_on_time" step="0.1"></div>
+            <div class="config-field"><label>High Off Time (s)</label><input type="number" id="s4_high_off_time" step="0.1"></div>
+            <div class="config-field"><label>Low Off Time (s)</label><input type="number" id="s4_low_off_time" step="0.1"></div>
+            <div class="config-field"><label>Pause Time (s)</label><input type="number" id="s4_pause_time" step="0.1"></div>
+            <div class="config-field"><label>Set Counts</label><input type="number" id="s4_set_counts"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-5">
+          <div class="config-grid">
+            <div class="config-field"><label>Status</label><select id="s5_status"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+            <div class="config-field"><label>High Set Voltage (V)</label><input type="number" id="s5_high_set_v" step="0.1"></div>
+            <div class="config-field"><label>Low Set Voltage (V)</label><input type="number" id="s5_low_set_v" step="0.1"></div>
+            <div class="config-field"><label>High Speed Cycle</label><input type="number" id="s5_high_speed_cycle"></div>
+            <div class="config-field"><label>Low Speed Cycle</label><input type="number" id="s5_low_speed_cycle"></div>
+            <div class="config-field"><label>High Speed Load</label><input type="number" id="s5_high_speed_load"></div>
+            <div class="config-field"><label>Low Speed Load</label><input type="number" id="s5_low_speed_load"></div>
+            <div class="config-field"><label>High On Time (s)</label><input type="number" id="s5_high_on_time" step="0.1"></div>
+            <div class="config-field"><label>Low On Time (s)</label><input type="number" id="s5_low_on_time" step="0.1"></div>
+            <div class="config-field"><label>High Off Time (s)</label><input type="number" id="s5_high_off_time" step="0.1"></div>
+            <div class="config-field"><label>Low Off Time (s)</label><input type="number" id="s5_low_off_time" step="0.1"></div>
+            <div class="config-field"><label>Pause Time (s)</label><input type="number" id="s5_pause_time" step="0.1"></div>
+            <div class="config-field"><label>Set Counts</label><input type="number" id="s5_set_counts"></div>
+          </div>
+        </div>
+
+      </div><!-- end card -->
+    </div><!-- end content -->
+  </div><!-- end main -->
+</div><!-- end layout -->
+
+<script type="module" src="/js/config.js"></script>
+</body>
+</html>
