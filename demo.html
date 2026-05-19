@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IoT Dashboard — Wiper Motor Test Rig (Demo)</title>
+<style>
+/* ── Variables ─────────────────────────────────────── */
+:root {
+  --bg: #f0f2f5;
+  --sidebar: #1a2340;
+  --sidebar-text: #c8d0e0;
+  --sidebar-active: #ffffff;
+  --card: #ffffff;
+  --border: #e0e4ea;
+  --text: #1a2340;
+  --muted: #6b7a99;
+  --accent: #2563eb;
+  --sw: 220px;
+
+  --c-auto:   #16a34a; --bg-auto:   #dcfce7;
+  --c-man:    #2563eb; --bg-man:    #dbeafe;
+  --c-error:  #dc2626; --bg-error:  #fee2e2;
+  --c-done:   #d97706; --bg-done:   #fef3c7;
+  --c-idle:   #6b7a99; --bg-idle:   #f1f5f9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── Screens ──────────────────────────────────────── */
+.screen{display:none}
+.screen.active{display:flex}
+
+/* ── Login ────────────────────────────────────────── */
+#screen-login{min-height:100vh;align-items:center;justify-content:center}
+.login-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:40px 36px;width:100%;max-width:380px;box-shadow:0 4px 24px rgba(0,0,0,.07)}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-logo .brand{font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-.5px}
+.login-logo .sub{font-size:13px;color:var(--muted);margin-top:4px}
+.demo-badge{display:inline-block;margin-top:8px;background:#fef3c7;color:#92400e;
+  border-radius:12px;padding:2px 10px;font-size:11px;font-weight:600}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:13px;font-weight:500;margin-bottom:6px}
+.fg input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;
+  font-size:14px;outline:none;font-family:inherit;transition:border-color .15s}
+.fg input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.login-err{color:var(--c-error);font-size:13px;min-height:20px;margin-bottom:8px}
+.login-hint{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+
+/* ── App layout ───────────────────────────────────── */
+#screen-app{min-height:100vh;width:100%}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:var(--sw);background:var(--sidebar);display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:100}
+.sb-logo{padding:20px 16px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo .brand{font-size:16px;font-weight:700;color:#fff}
+.sb-logo .sub{font-size:11px;color:var(--sidebar-text);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+.sb-user{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);color:var(--sidebar-text);font-size:13px}
+.sb-user strong{color:#fff;display:block;font-size:14px}
+.sb-nav{flex:1;padding:12px 0}
+.sb-nav a{display:flex;align-items:center;gap:10px;padding:10px 16px;
+  color:var(--sidebar-text);text-decoration:none;font-size:14px;cursor:pointer;
+  transition:background .15s,color .15s}
+.sb-nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.sb-nav a.active{background:rgba(37,99,235,.3);color:#fff;border-left:3px solid var(--accent)}
+.sb-nav .icon{font-size:16px;width:20px;text-align:center}
+.sb-footer{padding:12px 16px;border-top:1px solid rgba(255,255,255,.08)}
+.sb-footer a{color:var(--sidebar-text);text-decoration:none;font-size:13px;cursor:pointer}
+.main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column}
+.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:14px 24px;
+  display:flex;align-items:center;gap:12px}
+.topbar h1{font-size:18px;font-weight:600;flex:1}
+.content{padding:24px;flex:1}
+
+/* ── Pages inside app ─────────────────────────────── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── Cards ────────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px}
+.card-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--muted);margin-bottom:14px}
+
+/* ── Status badge ─────────────────────────────────── */
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.badge.auto  {background:var(--bg-auto);  color:var(--c-auto)}
+.badge.man   {background:var(--bg-man);   color:var(--c-man)}
+.badge.error {background:var(--bg-error); color:var(--c-error)}
+.badge.done  {background:var(--bg-done);  color:var(--c-done)}
+.badge.idle  {background:var(--bg-idle);  color:var(--c-idle)}
+
+/* ── Overview table ───────────────────────────────── */
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;padding:10px 12px;background:var(--bg);border-bottom:2px solid var(--border);
+  font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.tbl td{padding:12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#f8fafc}
+.num{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* ── Users chip ───────────────────────────────────── */
+.chip{background:var(--bg);border:1px solid var(--border);border-radius:12px;
+  padding:4px 12px;font-size:13px;color:var(--muted)}
+
+/* ── Live grid ────────────────────────────────────── */
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.st-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;
+  transition:box-shadow .2s}
+.st-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.st-head{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);background:var(--bg)}
+.st-num{font-size:12px;font-weight:700;color:var(--muted)}
+.st-body{padding:14px}
+.pr{display:flex;justify-content:space-between;align-items:center;padding:5px 0;
+  font-size:12px;border-bottom:1px solid var(--border)}
+.pr:last-child{border-bottom:none}
+.pl{color:var(--muted)}
+.pv{font-weight:600;font-variant-numeric:tabular-nums;font-size:13px}
+.st-foot{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px}
+
+/* ── Buttons ──────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 16px;
+  border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;border:none;
+  font-family:inherit;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-success{background:var(--c-auto);color:#fff}
+.btn-danger{background:var(--c-error);color:#fff}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-full{width:100%;margin-top:8px}
+
+/* ── Config tabs ──────────────────────────────────── */
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--border);margin-bottom:20px}
+.tab-btn{padding:8px 16px;font-size:14px;font-weight:500;border:none;background:none;
+  cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;
+  margin-bottom:-2px;font-family:inherit;transition:color .15s,border-color .15s}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.cfg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.cf label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.cf input,.cf select{width:100%;padding:8px 10px;border:1px solid var(--border);
+  border-radius:6px;font-size:14px;font-family:inherit;outline:none}
+.cf input:focus,.cf select:focus{border-color:var(--accent)}
+.save-row{display:flex;align-items:center;gap:12px;margin-top:20px}
+.save-msg{font-size:13px}
+
+/* ── Modal ────────────────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);
+  z-index:200;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:var(--card);border-radius:10px;padding:28px;
+  width:100%;max-width:360px;box-shadow:0 8px 40px rgba(0,0,0,.18)}
+.modal h3{font-size:17px;margin-bottom:10px}
+.modal p{font-size:14px;color:var(--muted);margin-bottom:20px}
+.modal-acts{display:flex;gap:10px;justify-content:flex-end}
+
+/* ── Live indicator ───────────────────────────────── */
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--c-auto);margin-right:6px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── Responsive ───────────────────────────────────── */
+@media(max-width:1200px){.grid5{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.grid5{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){
+  :root{--sw:0px}
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .grid5{grid-template-columns:1fr}
+  .content{padding:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     SCREEN 1: LOGIN
+════════════════════════════════════════════════════ -->
+<div id="screen-login" class="screen active">
+  <div class="login-wrap">
+    <div class="login-logo">
+      <div class="brand">⚙ IoT Dashboard</div>
+      <div class="sub">Wiper Motor Test Rig</div>
+      <span class="demo-badge">DEMO MODE</span>
+    </div>
+    <form id="login-form" onsubmit="doLogin(event)">
+      <div class="fg">
+        <label for="f-user">Username</label>
+        <input type="text" id="f-user" placeholder="Any username" autocomplete="off" required>
+      </div>
+      <div class="fg">
+        <label for="f-pass">Password</label>
+        <input type="password" id="f-pass" placeholder="Any password" required>
+      </div>
+      <div class="login-err" id="login-err"></div>
+      <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+    </form>
+    <div class="login-hint">Demo mode — any credentials are accepted</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SCREEN 2: APP (sidebar + pages)
+════════════════════════════════════════════════════ -->
+<div id="screen-app" class="screen">
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="brand">IoT Dashboard</div>
+      <div class="sub">Wiper Motor Test Rig</div>
+    </div>
+    <div class="sb-user">
+      <strong id="sb-username">—</strong>
+      <span>Demo User</span>
+    </div>
+    <nav class="sb-nav">
+      <a onclick="showPage('overview')" id="nav-overview" class="active">
+        <span class="icon">⊞</span> Overview
+      </a>
+      <a onclick="showPage('live')" id="nav-live">
+        <span class="icon">◉</span> Live Status
+      </a>
+      <a onclick="showPage('config')" id="nav-config">
+        <span class="icon">⚙</span> Test Config
+      </a>
+    </nav>
+    <div class="sb-footer">
+      <a onclick="doLogout()">Sign Out</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- ── PAGE: Overview ───────────────────────────── -->
+    <div id="page-overview" class="page active">
+      <div class="topbar">
+        <h1>Station Overview</h1>
+        <span class="chip">Users online: <strong id="ov-users">1</strong></span>
+        <span style="font-size:12px;color:var(--muted)">
+          <span class="live-dot"></span>Live
+        </span>
+      </div>
+      <div class="content">
+        <div class="card">
+          <div class="card-title">All Stations — Real-time</div>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Station</th>
+                <th>Status</th>
+                <th>Speed</th>
+                <th>Torque</th>
+                <th>Voltage</th>
+                <th>Current</th>
+                <th>Cycles Left</th>
+                <th>Sets Done</th>
+                <th>Run State</th>
+              </tr>
+            </thead>
+            <tbody id="ov-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: Live Status ─────────────────────────── -->
+    <div id="page-live" class="page">
+      <div class="topbar">
+        <h1>Live Status</h1>
+        <span style="font-size:12px;color:var(--muted)">
+          <span class="live-dot"></span>Updating every 500ms
+        </span>
+      </div>
+      <div class="content">
+        <div class="grid5" id="live-grid">
+          <!-- Station cards built by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: Test Config ─────────────────────────── -->
+    <div id="page-config" class="page">
+      <div class="topbar">
+        <h1>Test Configuration</h1>
+      </div>
+      <div class="content">
+        <div class="card">
+          <div class="tabs" id="cfg-tabs"></div>
+          <div id="cfg-panels"></div>
+          <div class="save-row">
+            <button class="btn btn-primary" onclick="saveConfig()">Save Configuration</button>
+            <span class="save-msg" id="save-msg"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end main -->
+</div><!-- end layout -->
+</div><!-- end screen-app -->
+
+<!-- Start modal -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <h3>Start Station <span id="modal-st-num"></span></h3>
+    <p>Choose how to start this station.</p>
+    <div class="modal-acts">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-outline btn-sm" onclick="modalCmd(2)">Continue</button>
+      <button class="btn btn-primary btn-sm" onclick="modalCmd(1)">Fresh Start</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ══════════════════════════════════════════════════════
+   SIMULATOR
+══════════════════════════════════════════════════════ */
+const CFGS = [
+  { id:1, model:'WM-2024-A', serial:'SN-001', mode:'AUTO', spd:65, trq:2.1, volt:12.0, amp:3.2, sets:5, cyc:500 },
+  { id:2, model:'WM-2024-B', serial:'SN-002', mode:'MAN',  spd:38, trq:1.3, volt:11.8, amp:2.1, sets:3, cyc:300 },
+  { id:3, model:'WM-2023-A', serial:'SN-003', mode:'IDLE', spd:0,  trq:0,   volt:0,    amp:0,   sets:0, cyc:0   },
+  { id:4, model:'WM-2024-C', serial:'SN-004', mode:'AUTO', spd:95, trq:3.5, volt:13.8, amp:4.6, sets:8, cyc:750 },
+  { id:5, model:'WM-2024-B', serial:'SN-005', mode:'AUTO', spd:55, trq:1.8, volt:12.4, amp:2.8, sets:4, cyc:400 },
+];
+
+const simState = CFGS.map((c, i) => ({
+  cfg: c,
+  startMs: Date.now() - i * 7300,   // stagger so they aren't in sync
+  cyclesLeft: c.cyc,
+  partCount: 0,
+  status: c.mode === 'IDLE' ? 'IDLE' : (c.mode === 'AUTO' ? 'AUTO MODE' : 'MAN MODE'),
+  runSts: c.mode === 'IDLE' ? 'STOPPED' : 'RUNNING',
+  overrideStop: false,
+}));
+
+// Smooth sinusoidal variation
+function wave(t, periodSec, amp) {
+  return amp * Math.sin((t / 1000) * (2 * Math.PI / periodSec));
+}
+function jitter(t, seed) {
+  return 0.04 * Math.sin(t * 0.007 * seed) * Math.cos(t * 0.013 * (seed + 2));
+}
+function r1(n) { return Math.round(n * 10) / 10; }
+function hms(totalSec) {
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  return [h,m,s].map(x => String(x).padStart(2,'0')).join(':');
+}
+
+// Station 5 (idx 4) faults every 30s for 4s to demo ERROR state
+const FAULT_CYC = 30000, FAULT_DUR = 4000;
+
+function tickStation(st, idx, now) {
+  const c = st.cfg;
+  if (c.mode === 'IDLE') return;
+
+  if (st.overrideStop) { st.status = 'STOPPED'; st.runSts = 'STOPPED'; return; }
+
+  // Periodic fault on station 5
+  if (idx === 4 && (now % FAULT_CYC) < FAULT_DUR) {
+    st.status = 'ERROR'; st.runSts = 'FAULT'; return;
+  }
+
+  // Advance cycles: 1 cycle per 200ms real time
+  const done = Math.floor((now - st.startMs) / 200);
+  if (done >= c.cyc) {
+    st.partCount = Math.min(st.partCount + 1, c.sets);
+    st.startMs = now;
+    st.status = 'SET DONE'; st.runSts = 'STOPPED';
+  } else {
+    st.cyclesLeft = c.cyc - done;
+    st.status = c.mode === 'AUTO' ? 'AUTO MODE' : 'MAN MODE';
+    st.runSts = 'RUNNING';
+  }
+}
+
+function getSnapshot() {
+  const now = Date.now();
+  return simState.map((st, idx) => {
+    tickStation(st, idx, now);
+    const c = st.cfg;
+    const run = st.runSts === 'RUNNING';
+    const t = now;
+    return {
+      id: c.id, model: c.model, serial: c.serial,
+      status: st.status, runSts: st.runSts,
+      speed:   run ? r1(Math.max(0, c.spd  + wave(t,8,  c.spd *.12) + jitter(t,idx+1)*c.spd))  : 0,
+      torque:  run ? r1(Math.max(0, c.trq  + wave(t,11, c.trq *.18) + jitter(t,idx+3)*c.trq))  : 0,
+      voltage: run ? r1(c.volt + wave(t,5,0.15) + jitter(t,idx+7)*0.1) : 0,
+      current: run ? r1(Math.max(0, c.amp  + wave(t,7,  0.3)         + jitter(t,idx+5)*0.2))   : 0,
+      cyclesLeft: st.cyclesLeft,
+      partCount:  st.partCount,
+      elapsedSec: Math.floor((now - st.startMs) / 1000),
+    };
+  });
+}
+
+function simApplyCmd(stationId, cmd) {
+  const st = simState[stationId - 1];
+  if (!st || st.cfg.mode === 'IDLE') return;
+  if (cmd === 0) {
+    st.overrideStop = true;
+    st.startMs = Date.now();
+  } else {
+    st.overrideStop = false;
+    if (cmd === 1) { st.cyclesLeft = st.cfg.cyc; st.partCount = 0; }
+    st.startMs = Date.now();
+  }
+}
+
+// Default config values for all 5 stations
+const CFG_DATA = {
+  status:           [1,1,0,1,1],
+  high_set_v:       [13.5,11.8,0,14.2,13.0],
+  low_set_v:        [11.0,10.5,0,11.2,10.8],
+  high_speed_cycle: [500,300,0,750,400],
+  low_speed_cycle:  [250,150,0,400,200],
+  high_speed_load:  [3.5,2.0,0,4.5,3.0],
+  low_speed_load:   [1.5,1.0,0,2.0,1.2],
+  high_on_time:     [2.5,1.8,0,3.0,2.2],
+  low_on_time:      [1.0,0.8,0,1.2,0.9],
+  high_off_time:    [1.5,1.2,0,2.0,1.4],
+  low_off_time:     [0.8,0.5,0,1.0,0.7],
+  pause_time:       [0.5,0.3,0,0.8,0.4],
+  set_counts:       [5,3,0,8,4],
+};
+
+/* ══════════════════════════════════════════════════════
+   UI HELPERS
+══════════════════════════════════════════════════════ */
+function badgeClass(status) {
+  if (!status) return 'idle';
+  const s = status.toUpperCase();
+  if (s.includes('AUTO'))  return 'auto';
+  if (s.includes('MAN'))   return 'man';
+  if (s.includes('ERROR') || s.includes('FAULT')) return 'error';
+  if (s.includes('DONE') || s.includes('STOPPED')) return 'done';
+  return 'idle';
+}
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ══════════════════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════════════════ */
+let currentUser = null;
+
+function doLogin(e) {
+  e.preventDefault();
+  const user = document.getElementById('f-user').value.trim();
+  const pass = document.getElementById('f-pass').value;
+  if (!user || !pass) {
+    document.getElementById('login-err').textContent = 'Please fill in both fields.';
+    return;
+  }
+  currentUser = user;
+  document.getElementById('sb-username').textContent = user;
+  document.getElementById('screen-login').classList.remove('active');
+  document.getElementById('screen-app').classList.add('active');
+  buildLiveGrid();
+  buildConfigTabs();
+  startLoop();
+}
+
+function doLogout() {
+  if (loopId) { clearInterval(loopId); loopId = null; }
+  currentUser = null;
+  document.getElementById('screen-app').classList.remove('active');
+  document.getElementById('screen-login').classList.add('active');
+  document.getElementById('f-user').value = '';
+  document.getElementById('f-pass').value = '';
+}
+
+/* ══════════════════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════════════════ */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+}
+
+/* ══════════════════════════════════════════════════════
+   OVERVIEW PAGE
+══════════════════════════════════════════════════════ */
+function renderOverview(stations) {
+  const tbody = document.getElementById('ov-tbody');
+  tbody.innerHTML = '';
+  stations.forEach(s => {
+    const bc = badgeClass(s.status);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>Station ${s.id}</strong><br><span style="font-size:11px;color:var(--muted)">${esc(s.model)} / ${esc(s.serial)}</span></td>
+      <td><span class="badge ${bc}">${esc(s.status)}</span></td>
+      <td class="num">${s.speed} rpm</td>
+      <td class="num">${s.torque} Nm</td>
+      <td class="num">${s.voltage} V</td>
+      <td class="num">${s.current} A</td>
+      <td class="num">${s.cyclesLeft}</td>
+      <td class="num">${s.partCount}</td>
+      <td>${esc(s.runSts)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   LIVE STATUS PAGE
+══════════════════════════════════════════════════════ */
+function buildLiveGrid() {
+  const grid = document.getElementById('live-grid');
+  grid.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    grid.insertAdjacentHTML('beforeend', `
+      <div class="st-card">
+        <div class="st-head">
+          <span class="st-num">Station ${i}</span>
+          <span class="badge idle" id="ls-status${i}">IDLE</span>
+        </div>
+        <div class="st-body">
+          <div class="pr"><span class="pl">Model</span>   <span class="pv" id="ls-model${i}">—</span></div>
+          <div class="pr"><span class="pl">Serial</span>  <span class="pv" id="ls-serial${i}">—</span></div>
+          <div class="pr"><span class="pl">Speed</span>   <span class="pv" id="ls-speed${i}">—</span></div>
+          <div class="pr"><span class="pl">Torque</span>  <span class="pv" id="ls-torque${i}">—</span></div>
+          <div class="pr"><span class="pl">Voltage</span> <span class="pv" id="ls-volt${i}">—</span></div>
+          <div class="pr"><span class="pl">Current</span> <span class="pv" id="ls-amp${i}">—</span></div>
+          <div class="pr"><span class="pl">Cycles Left</span><span class="pv" id="ls-cyc${i}">—</span></div>
+          <div class="pr"><span class="pl">Sets Done</span><span class="pv" id="ls-sets${i}">—</span></div>
+          <div class="pr"><span class="pl">Cycle Time</span><span class="pv" id="ls-time${i}">—</span></div>
+          <div class="pr"><span class="pl">Run State</span><span class="pv" id="ls-run${i}">—</span></div>
+        </div>
+        <div class="st-foot">
+          <button class="btn btn-success btn-sm" onclick="openModal(${i})">Start</button>
+          <button class="btn btn-danger btn-sm" onclick="simApplyCmd(${i},0)">Stop</button>
+        </div>
+      </div>`);
+  }
+}
+
+function renderLive(stations) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  stations.forEach(s => {
+    const bc = badgeClass(s.status);
+    const badge = document.getElementById('ls-status' + s.id);
+    if (badge) { badge.textContent = s.status; badge.className = 'badge ' + bc; }
+    set('ls-model'  + s.id, s.model);
+    set('ls-serial' + s.id, s.serial);
+    set('ls-speed'  + s.id, s.speed + ' rpm');
+    set('ls-torque' + s.id, s.torque + ' Nm');
+    set('ls-volt'   + s.id, s.voltage + ' V');
+    set('ls-amp'    + s.id, s.current + ' A');
+    set('ls-cyc'    + s.id, s.cyclesLeft);
+    set('ls-sets'   + s.id, s.partCount);
+    set('ls-time'   + s.id, hms(s.elapsedSec));
+    set('ls-run'    + s.id, s.runSts);
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   CONFIG PAGE
+══════════════════════════════════════════════════════ */
+const CFG_FIELDS = [
+  {key:'status',          label:'Status',             type:'select'},
+  {key:'high_set_v',      label:'High Set Voltage (V)',type:'number'},
+  {key:'low_set_v',       label:'Low Set Voltage (V)', type:'number'},
+  {key:'high_speed_cycle',label:'High Speed Cycle',    type:'number'},
+  {key:'low_speed_cycle', label:'Low Speed Cycle',     type:'number'},
+  {key:'high_speed_load', label:'High Speed Load',     type:'number'},
+  {key:'low_speed_load',  label:'Low Speed Load',      type:'number'},
+  {key:'high_on_time',    label:'High On Time (s)',     type:'number'},
+  {key:'low_on_time',     label:'Low On Time (s)',      type:'number'},
+  {key:'high_off_time',   label:'High Off Time (s)',    type:'number'},
+  {key:'low_off_time',    label:'Low Off Time (s)',     type:'number'},
+  {key:'pause_time',      label:'Pause Time (s)',       type:'number'},
+  {key:'set_counts',      label:'Set Counts',           type:'number'},
+];
+
+function buildConfigTabs() {
+  const tabsEl   = document.getElementById('cfg-tabs');
+  const panelsEl = document.getElementById('cfg-panels');
+  tabsEl.innerHTML = '';
+  panelsEl.innerHTML = '';
+
+  for (let i = 1; i <= 5; i++) {
+    tabsEl.insertAdjacentHTML('beforeend',
+      `<button class="tab-btn${i===1?' active':''}" onclick="switchTab(${i})" id="ctab${i}">Station ${i}</button>`);
+
+    let fields = '';
+    CFG_FIELDS.forEach(f => {
+      const val = CFG_DATA[f.key][i-1];
+      if (f.type === 'select') {
+        fields += `<div class="cf"><label>${f.label}</label>
+          <select id="cf_${f.key}_${i}">
+            <option value="1"${val==1?' selected':''}>Active</option>
+            <option value="0"${val==0?' selected':''}>Inactive</option>
+          </select></div>`;
+      } else {
+        fields += `<div class="cf"><label>${f.label}</label>
+          <input type="number" id="cf_${f.key}_${i}" value="${val}" step="0.1"></div>`;
+      }
+    });
+
+    panelsEl.insertAdjacentHTML('beforeend',
+      `<div class="tab-pane${i===1?' active':''}" id="cpane${i}">
+         <div class="cfg-grid">${fields}</div>
+       </div>`);
+  }
+}
+
+function switchTab(n) {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('ctab'  + i).classList.toggle('active', i === n);
+    document.getElementById('cpane' + i).classList.toggle('active', i === n);
+  }
+}
+
+function saveConfig() {
+  // Read form values back into CFG_DATA (demo: just update local object)
+  CFG_FIELDS.forEach(f => {
+    CFG_DATA[f.key] = [];
+    for (let i = 1; i <= 5; i++) {
+      const el = document.getElementById(`cf_${f.key}_${i}`);
+      CFG_DATA[f.key].push(el ? parseFloat(el.value) : 0);
+    }
+  });
+  const msg = document.getElementById('save-msg');
+  msg.style.color = 'var(--c-auto)';
+  msg.textContent = 'Configuration saved (demo).';
+  setTimeout(() => { msg.textContent = ''; }, 2500);
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════════════════ */
+let modalStation = null;
+
+function openModal(stationId) {
+  modalStation = stationId;
+  document.getElementById('modal-st-num').textContent = stationId;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  modalStation = null;
+}
+function modalCmd(cmd) {
+  if (modalStation) simApplyCmd(modalStation, cmd);
+  closeModal();
+}
+// Close modal on backdrop click
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+/* ══════════════════════════════════════════════════════
+   MAIN LOOP  (500ms, same cadence as the real system)
+══════════════════════════════════════════════════════ */
+let loopId = null;
+
+function startLoop() {
+  if (loopId) clearInterval(loopId);
+  loopId = setInterval(() => {
+    const stations = getSnapshot();
+    renderOverview(stations);
+    renderLive(stations);
+    // Simulate fluctuating user count
+    const uc = document.getElementById('ov-users');
+    if (uc) uc.textContent = 1 + Math.floor((Date.now() / 15000) % 4);
+  }, 500);
+}
+</script>
+</body>
+</html>
