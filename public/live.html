@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Status — IoT Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="/assets/logo.png" alt="Logo" onerror="this.style.display='none'">
+      <span>Wiper Motor Test Rig</span>
+    </div>
+    <div class="sidebar-user" id="sidebar-user"></div>
+    <nav class="sidebar-nav">
+      <a href="index.html"><span class="icon">⊞</span> Overview</a>
+      <a href="live.html"><span class="icon">◉</span> Live Status</a>
+      <a href="config.html" class="admin-only"><span class="icon">⚙</span> Test Config</a>
+    </nav>
+    <div class="sidebar-footer"><a href="/api/logout">Sign Out</a></div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Live Status</h1>
+      <span id="ws-status" class="ws-status connecting">Connecting…</span>
+      <span class="user-count">Users: <strong id="no-users">—</strong></span>
+    </div>
+
+    <div class="content">
+      <div class="stations-grid">
+        <!-- Station cards 1–5 -->
+        <div class="station-card" id="station-card-1">
+          <div class="station-header">
+            <span class="station-num">Station 1</span>
+            <span class="status-badge idle" id="status1">IDLE</span>
+          </div>
+          <div class="station-body">
+            <div class="param-row"><span class="param-label">Model</span><span class="param-value" id="model1">—</span></div>
+            <div class="param-row"><span class="param-label">Serial</span><span class="param-value" id="serial1">—</span></div>
+            <div class="param-row"><span class="param-label">Speed</span><span class="param-value" id="speed1">— rpm</span></div>
+            <div class="param-row"><span class="param-label">Torque</span><span class="param-value" id="torque1">— Nm</span></div>
+            <div class="param-row"><span class="param-label">Voltage</span><span class="param-value" id="voltage1">— V</span></div>
+            <div class="param-row"><span class="param-label">Current</span><span class="param-value" id="current1">— A</span></div>
+            <div class="param-row"><span class="param-label">Cycles Left</span><span class="param-value" id="no_cycle1">—</span></div>
+            <div class="param-row"><span class="param-label">Sets</span><span class="param-value" id="part_count1">—</span></div>
+            <div class="param-row"><span class="param-label">Cycle Time</span><span class="param-value" id="cycletime1">—</span></div>
+            <div class="param-row"><span class="param-label">Run State</span><span class="param-value" id="runsts1">—</span></div>
+          </div>
+          <div class="station-footer">
+            <button class="btn btn-success btn-sm" data-open-modal="1">Start</button>
+            <button class="btn btn-danger btn-sm" data-station-cmd="1" data-cmd="0">Stop</button>
+          </div>
+        </div>
+
+        <div class="station-card" id="station-card-2">
+          <div class="station-header">
+            <span class="station-num">Station 2</span>
+            <span class="status-badge idle" id="status2">IDLE</span>
+          </div>
+          <div class="station-body">
+            <div class="param-row"><span class="param-label">Model</span><span class="param-value" id="model2">—</span></div>
+            <div class="param-row"><span class="param-label">Serial</span><span class="param-value" id="serial2">—</span></div>
+            <div class="param-row"><span class="param-label">Speed</span><span class="param-value" id="speed2">— rpm</span></div>
+            <div class="param-row"><span class="param-label">Torque</span><span class="param-value" id="torque2">— Nm</span></div>
+            <div class="param-row"><span class="param-label">Voltage</span><span class="param-value" id="voltage2">— V</span></div>
+            <div class="param-row"><span class="param-label">Current</span><span class="param-value" id="current2">— A</span></div>
+            <div class="param-row"><span class="param-label">Cycles Left</span><span class="param-value" id="no_cycle2">—</span></div>
+            <div class="param-row"><span class="param-label">Sets</span><span class="param-value" id="part_count2">—</span></div>
+            <div class="param-row"><span class="param-label">Cycle Time</span><span class="param-value" id="cycletime2">—</span></div>
+            <div class="param-row"><span class="param-label">Run State</span><span class="param-value" id="runsts2">—</span></div>
+          </div>
+          <div class="station-footer">
+            <button class="btn btn-success btn-sm" data-open-modal="2">Start</button>
+            <button class="btn btn-danger btn-sm" data-station-cmd="2" data-cmd="0">Stop</button>
+          </div>
+        </div>
+
+        <div class="station-card" id="station-card-3">
+          <div class="station-header">
+            <span class="station-num">Station 3</span>
+            <span class="status-badge idle" id="status3">IDLE</span>
+          </div>
+          <div class="station-body">
+            <div class="param-row"><span class="param-label">Model</span><span class="param-value" id="model3">—</span></div>
+            <div class="param-row"><span class="param-label">Serial</span><span class="param-value" id="serial3">—</span></div>
+            <div class="param-row"><span class="param-label">Speed</span><span class="param-value" id="speed3">— rpm</span></div>
+            <div class="param-row"><span class="param-label">Torque</span><span class="param-value" id="torque3">— Nm</span></div>
+            <div class="param-row"><span class="param-label">Voltage</span><span class="param-value" id="voltage3">— V</span></div>
+            <div class="param-row"><span class="param-label">Current</span><span class="param-value" id="current3">— A</span></div>
+            <div class="param-row"><span class="param-label">Cycles Left</span><span class="param-value" id="no_cycle3">—</span></div>
+            <div class="param-row"><span class="param-label">Sets</span><span class="param-value" id="part_count3">—</span></div>
+            <div class="param-row"><span class="param-label">Cycle Time</span><span class="param-value" id="cycletime3">—</span></div>
+            <div class="param-row"><span class="param-label">Run State</span><span class="param-value" id="runsts3">—</span></div>
+          </div>
+          <div class="station-footer">
+            <button class="btn btn-success btn-sm" data-open-modal="3">Start</button>
+            <button class="btn btn-danger btn-sm" data-station-cmd="3" data-cmd="0">Stop</button>
+          </div>
+        </div>
+
+        <div class="station-card" id="station-card-4">
+          <div class="station-header">
+            <span class="station-num">Station 4</span>
+            <span class="status-badge idle" id="status4">IDLE</span>
+          </div>
+          <div class="station-body">
+            <div class="param-row"><span class="param-label">Model</span><span class="param-value" id="model4">—</span></div>
+            <div class="param-row"><span class="param-label">Serial</span><span class="param-value" id="serial4">—</span></div>
+            <div class="param-row"><span class="param-label">Speed</span><span class="param-value" id="speed4">— rpm</span></div>
+            <div class="param-row"><span class="param-label">Torque</span><span class="param-value" id="torque4">— Nm</span></div>
+            <div class="param-row"><span class="param-label">Voltage</span><span class="param-value" id="voltage4">— V</span></div>
+            <div class="param-row"><span class="param-label">Current</span><span class="param-value" id="current4">— A</span></div>
+            <div class="param-row"><span class="param-label">Cycles Left</span><span class="param-value" id="no_cycle4">—</span></div>
+            <div class="param-row"><span class="param-label">Sets</span><span class="param-value" id="part_count4">—</span></div>
+            <div class="param-row"><span class="param-label">Cycle Time</span><span class="param-value" id="cycletime4">—</span></div>
+            <div class="param-row"><span class="param-label">Run State</span><span class="param-value" id="runsts4">—</span></div>
+          </div>
+          <div class="station-footer">
+            <button class="btn btn-success btn-sm" data-open-modal="4">Start</button>
+            <button class="btn btn-danger btn-sm" data-station-cmd="4" data-cmd="0">Stop</button>
+          </div>
+        </div>
+
+        <div class="station-card" id="station-card-5">
+          <div class="station-header">
+            <span class="station-num">Station 5</span>
+            <span class="status-badge idle" id="status5">IDLE</span>
+          </div>
+          <div class="station-body">
+            <div class="param-row"><span class="param-label">Model</span><span class="param-value" id="model5">—</span></div>
+            <div class="param-row"><span class="param-label">Serial</span><span class="param-value" id="serial5">—</span></div>
+            <div class="param-row"><span class="param-label">Speed</span><span class="param-value" id="speed5">— rpm</span></div>
+            <div class="param-row"><span class="param-label">Torque</span><span class="param-value" id="torque5">— Nm</span></div>
+            <div class="param-row"><span class="param-label">Voltage</span><span class="param-value" id="voltage5">— V</span></div>
+            <div class="param-row"><span class="param-label">Current</span><span class="param-value" id="current5">— A</span></div>
+            <div class="param-row"><span class="param-label">Cycles Left</span><span class="param-value" id="no_cycle5">—</span></div>
+            <div class="param-row"><span class="param-label">Sets</span><span class="param-value" id="part_count5">—</span></div>
+            <div class="param-row"><span class="param-label">Cycle Time</span><span class="param-value" id="cycletime5">—</span></div>
+            <div class="param-row"><span class="param-label">Run State</span><span class="param-value" id="runsts5">—</span></div>
+          </div>
+          <div class="station-footer">
+            <button class="btn btn-success btn-sm" data-open-modal="5">Start</button>
+            <button class="btn btn-danger btn-sm" data-station-cmd="5" data-cmd="0">Stop</button>
+          </div>
+        </div>
+      </div><!-- end stations-grid -->
+    </div><!-- end content -->
+  </div><!-- end main -->
+</div><!-- end layout -->
+
+<!-- Start modal (FRESH / CONTINUE) -->
+<div class="modal-backdrop" id="start-modal">
+  <div class="modal">
+    <h3>Start Station</h3>
+    <p>Choose how to start the selected station.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="modal-cancel">Cancel</button>
+      <button class="btn btn-outline btn-sm" data-modal-cmd="2">Continue</button>
+      <button class="btn btn-primary btn-sm" data-modal-cmd="1">Fresh Start</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/js/live.js"></script>
+</body>
+</html>
