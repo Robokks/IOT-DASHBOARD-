@@ -13,13 +13,13 @@
       <img src="/assets/logo.png" alt="Logo" onerror="this.style.display='none'">
       <span>Wiper Motor Test Rig</span>
     </div>
-    <div class="sidebar-user" id="sidebar-user"></div>
-    <nav class="sidebar-nav">
-      <a href="index.html"><span class="icon">⊞</span> Overview</a>
-      <a href="live.html"><span class="icon">◉</span> Live Status</a>
-      <a href="config.html" class="admin-only"><span class="icon">⚙</span> Test Config</a>
+    <div class="sidebar-user">Logged in as <strong id="sb-username"></strong></div>
+    <nav class="sb-nav">
+      <a href="index.html"  data-page="index.html" ><span class="icon">⊞</span> Overview</a>
+      <a href="live.html"   data-page="live.html"  ><span class="icon">◉</span> Live Status</a>
+      <a href="config.html" data-page="config.html"><span class="icon">⚙</span> Test Config</a>
     </nav>
-    <div class="sidebar-footer"><a href="/api/logout">Sign Out</a></div>
+    <div class="sidebar-footer"><a href="#" id="logout-btn">Sign Out</a></div>
   </aside>
 
   <div class="main">
@@ -137,5 +137,10 @@
 </div><!-- end layout -->
 
 <script type="module" src="/js/config.js"></script>
+<script type="module">
+  document.getElementById('logout-btn').addEventListener('click', (e) => {
+    e.preventDefault(); sessionStorage.clear(); window.location.href = '/login.html';
+  });
+</script>
 </body>
 </html>

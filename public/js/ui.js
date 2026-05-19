@@ -1,58 +1,60 @@
 'use strict';
 
-// Auth guard: fetch /api/me; redirect to login if 401
-export async function requireAuth() {
-  try {
-    const res = await fetch('/api/me');
-    if (res.status === 401) {
-      window.location.href = '/login.html';
-      return null;
-    }
-    return res.json();
-  } catch {
+// ── Token helpers ──────────────────────────────────────────────────────────
+// LabVIEW requires "+" in tokens to be replaced with "12fgh" in query strings
+export function encodeToken(token) {
+  return token.replace(/\+/g, '12fgh');
+}
+
+export function getToken() {
+  return sessionStorage.getItem('labviewToken');
+}
+
+export function getUser() {
+  return sessionStorage.getItem('labviewUser') || '';
+}
+
+// ── Auth guard ─────────────────────────────────────────────────────────────
+// Call at the top of every protected page. Returns token or redirects.
+export function requireAuth() {
+  const token = getToken();
+  if (!token) {
     window.location.href = '/login.html';
     return null;
   }
+  return token;
 }
 
-// Set sidebar active link based on current page
-export function markActiveNav() {
-  const path = window.location.pathname.split('/').pop();
-  document.querySelectorAll('.sidebar-nav a').forEach(a => {
-    const href = a.getAttribute('href');
-    if (href === path || (path === '' && href === 'index.html')) {
-      a.classList.add('active');
-    }
+// ── Status badge CSS class ─────────────────────────────────────────────────
+export function statusClass(status) {
+  if (!status) return 'idle';
+  const s = status.toUpperCase();
+  if (s.includes('AUTO'))                    return 'auto';
+  if (s.includes('MAN'))                     return 'man';
+  if (s.includes('ERROR') || s.includes('FAULT')) return 'error';
+  if (s.includes('DONE') || s.includes('STOPPED')) return 'done';
+  return 'idle';
+}
+
+export function applyStatusClass(el, status) {
+  el.classList.remove('auto', 'man', 'error', 'done', 'idle');
+  el.classList.add(statusClass(status));
+}
+
+// ── Sidebar ────────────────────────────────────────────────────────────────
+export function initSidebar() {
+  const userEl = document.getElementById('sb-username');
+  if (userEl) userEl.textContent = getUser();
+
+  // Mark active nav link based on current filename
+  const page = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sb-nav a[data-page]').forEach(a => {
+    if (a.dataset.page === page) a.classList.add('active');
   });
 }
 
-// Apply status color class to an element
-export function applyStatusClass(el, status) {
-  el.classList.remove('auto', 'manual', 'error', 'idle');
-  if (!status) { el.classList.add('idle'); return; }
-  const s = status.toUpperCase();
-  if (s.includes('AUTO'))   el.classList.add('auto');
-  else if (s.includes('MAN')) el.classList.add('manual');
-  else if (s.includes('ERROR') || s.includes('ERR')) el.classList.add('error');
-  else el.classList.add('idle');
-}
-
-// Populate sidebar user display
-export function renderUser(session) {
-  const el = document.getElementById('sidebar-user');
-  if (el && session) {
-    el.innerHTML = `<strong>${escHtml(session.user)}</strong><span>${escHtml(session.accessLevel)}</span>`;
-  }
-  // Hide admin-only elements for operators
-  if (session && session.accessLevel !== 'admin') {
-    document.querySelectorAll('.admin-only').forEach(e => e.remove());
-  }
-}
-
-export function escHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+export function escHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
